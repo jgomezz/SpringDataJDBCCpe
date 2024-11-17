@@ -8,16 +8,20 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@SpringBootTest
-class CategoriaServiceImplTest {
 
-    private static Logger log = LoggerFactory.getLogger(CategoriaServiceImplTest.class);
+@SpringBootTest
+class CategoriaServiceTest {
+
+    private static Logger log = LoggerFactory.getLogger(CategoriaServiceTest.class);
 
     @Autowired
     CategoriaService categoriaService;
 
+
     @Test
     void findAll() throws Exception {
+
+        log.info("Start testing ");
 
         this.categoriaService.findAll();
 
