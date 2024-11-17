@@ -14,7 +14,7 @@ public class CategoriaRepositoryImpl implements CategoriaRepository{
     @Override
     public List<Categoria> findAll() throws Exception {
 
-        log.info("call findAll()");
+        log.info("Call findAll()");
 
         List<Categoria> categorias = new ArrayList<>();
 
