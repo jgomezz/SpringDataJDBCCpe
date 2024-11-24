@@ -103,21 +103,61 @@ public class ProductoRepositoryImpl implements ProductoRepository {
 
     @Override
     public Producto findById(Long id) throws Exception {
-        return null;
+        log.info("call findById()");
+
+
+        String sql =
+                """
+                           SELECT     p.id, p.categorias_id, c.nombre AS categorias_nombre, p.nombre, p.estado,
+                                 p.descripcion, p.precio, p.stock, p.imagen_nombre, p.imagen_tipo, p.imagen_tamanio,
+                                 p.creado
+                           FROM productos p
+                           INNER JOIN categorias c ON c.id = p.categorias_id
+                           WHERE estado = 1 AND p.id = ?
+                        """;
+
+        Object[] parameter = new Object[]{id};
+        Producto producto = jdbcTemplate.queryForObject(sql, new ProductoRowMapper(), parameter);
+        log.info("Producto: " + producto);
+
+        return producto;
     }
 
     @Override
     public void save(Producto producto) throws Exception {
+        log.info("call save()");
 
+        String sql =
+                """
+                   INSERT INTO  productos (categorias_id, nombre, descripcion, precio, stock, estado,
+                                     imagen_nombre, imagen_tipo, imagen_tamanio)
+                   VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+                """;
+
+
+        jdbcTemplate.update(sql,
+                producto.getCategorias_id(),
+                producto.getNombre(),
+                producto.getDescripcion(),
+                producto.getPrecio(),
+                producto.getStock(),
+                producto.getEstado(),
+                producto.getImagen_nombre(),
+                producto.getImagen_tipo(),
+                producto.getImagen_tamanio());
     }
 
     @Override
     public void update(Long id, String nombreProducto) throws Exception {
-
+        log.info("call update()");
+        String sql = "UPDATE productos SET  nombre = ?  WHERE id = ?";
+        jdbcTemplate.update(sql, nombreProducto, id);
     }
 
     @Override
     public void deleteById(Long id) throws Exception {
-
+        log.info("call deleteById()");
+        String sql = "DELETE FROM productos WHERE id = ?";
+        jdbcTemplate.update(sql, id);
     }
 }
