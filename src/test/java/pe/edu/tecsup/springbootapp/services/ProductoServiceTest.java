@@ -4,12 +4,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import pe.edu.tecsup.springbootapp.entities.Categoria;
 import pe.edu.tecsup.springbootapp.entities.Producto;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @Slf4j
 @SpringBootTest
@@ -24,8 +23,8 @@ class ProductoServiceTest {
 
         log.info("Start testing ");
 
-        List<Producto> productos =  this.productoService.findAll();
-        productos.stream().forEach(prod -> System.out.println(prod.getNombre()));
+        List<Producto> productos = this.productoService.findAll();
+        productos.stream().forEach(prod -> log.info(prod.getNombre()));
         productos.isEmpty();
 
         assertEquals(VALUE_EXPECTED, !productos.isEmpty());
@@ -33,22 +32,31 @@ class ProductoServiceTest {
     }
 
     @Test
-    void findByName() {
+    void findByName() throws Exception {
+
+        Boolean VALUE_EXPECTED = true;
+
+        List<Producto> productos = this.productoService.findByName("AMD");
+
+        log.info("Print by productos");
+        productos.stream().forEach(prod -> log.info(prod.getNombre()));
+
+        assertEquals(VALUE_EXPECTED, !productos.isEmpty());
     }
 
     @Test
-    void findById() {
+    void findById() throws Exception {
     }
 
     @Test
-    void save() {
+    void save() throws Exception {
     }
 
     @Test
-    void deleteById() {
+    void deleteById() throws Exception {
     }
 
     @Test
-    void update() {
+    void update() throws Exception {
     }
 }

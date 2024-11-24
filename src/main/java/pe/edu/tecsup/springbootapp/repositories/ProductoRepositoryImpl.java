@@ -1,7 +1,6 @@
 package pe.edu.tecsup.springbootapp.repositories;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -80,7 +79,26 @@ public class ProductoRepositoryImpl implements ProductoRepository {
 
     @Override
     public List<Producto> findByName(String nombre) throws Exception {
-        return List.of();
+        log.info("call findByName()");
+
+        String sql =
+                """
+                           SELECT p.id, p.categorias_id, c.nombre AS categorias_nombre, p.nombre,
+                                 p.descripcion, p.precio, p.stock, p.imagen_nombre, p.imagen_tipo,
+                                 p.imagen_tamanio, p.creado, p.estado
+                           FROM productos p 
+                           INNER JOIN categorias c ON c.id = p.categorias_id
+                           WHERE estado = 1 AND upper(p.nombre) LIKE upper(?) 
+                           ORDER BY id
+                        """;
+
+        Object[] parameters = new Object[]{nombre}; // new Object[] {parameter1, parameter2 , .....,}
+        List<Producto> productos = jdbcTemplate.query(sql, new ProductoRowMapper(), parameters);
+
+        log.info("Productos: " + productos);
+
+        return productos;
+
     }
 
     @Override

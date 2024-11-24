@@ -25,7 +25,9 @@ public class ProductoServiceImpl implements  ProductoService{
 
     @Override
     public List<Producto> findByName(String nombre) throws Exception {
-        return List.of();
+        log.info("call findByName()");
+        return this.productoRepository.findByName(nombre);
+
     }
 
     @Override
