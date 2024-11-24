@@ -29,7 +29,7 @@ class CategoriaServiceTest {
         log.info("Start testing ");
 
         List<Categoria> categorias =  this.categoriaService.findAll();
-        categorias.stream().forEach(item -> System.out.println(item.getNombre()));
+        categorias.stream().forEach(cat -> System.out.println(cat.getNombre()));
         categorias.isEmpty();
 
         assertEquals(VALUE_EXPECTED, !categorias.isEmpty());
