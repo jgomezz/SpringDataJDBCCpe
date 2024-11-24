@@ -32,21 +32,25 @@ public class ProductoServiceImpl implements  ProductoService{
 
     @Override
     public Producto findById(Long id) throws Exception {
-        return null;
+        log.info("call findById()");
+        return this.productoRepository.findById(id);
     }
 
     @Override
     public void save(Producto producto) throws Exception {
-
+        log.info("call save()");
+        this.productoRepository.save(producto);
     }
 
     @Override
     public void deleteById(Long id) throws Exception {
-
+        log.info("call deleteById()");
+        this.productoRepository.deleteById(id);
     }
 
     @Override
     public void update(Long id, String nombreProducto) throws Exception {
-
+        log.info("call update()");
+        this.productoRepository.update(id, nombreProducto);
     }
 }
