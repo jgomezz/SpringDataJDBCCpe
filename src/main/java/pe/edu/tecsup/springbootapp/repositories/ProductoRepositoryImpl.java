@@ -52,8 +52,11 @@ class ProductoRowMapper implements RowMapper<Producto> {
 @Repository
 public class ProductoRepositoryImpl implements ProductoRepository {
 
-    @Autowired
     JdbcTemplate jdbcTemplate;
+
+    public ProductoRepositoryImpl(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
+    }
 
     @Override
     public List<Producto> findAll() throws Exception {
