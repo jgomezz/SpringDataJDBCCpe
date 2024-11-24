@@ -46,17 +46,83 @@ class ProductoServiceTest {
 
     @Test
     void findById() throws Exception {
+
+        String NAME_EXPECTED = "Kingstone";
+        Long ID = 1L;
+        Producto producto = this.productoService.findById(ID);
+        log.info(producto.toString());
+
+        assertEquals(NAME_EXPECTED, producto.getNombre());
+
     }
 
     @Test
     void save() throws Exception {
+
+        List<Producto> productos = this.productoService.findAll();
+        int totalAntes = productos.size();
+
+        Producto producto = new Producto();
+        producto.setCategorias_id(1L);
+        producto.setNombre("AMD");
+        producto.setDescripcion("AMD X10");
+        producto.setPrecio(280.0);
+        producto.setStock(6);
+        producto.setEstado(1);
+
+        this.productoService.save(producto);
+
+        productos = this.productoService.findAll();
+        int totalDespues = productos.size();
+
+        assertEquals(1, totalDespues - totalAntes);
     }
 
     @Test
     void deleteById() throws Exception {
+        List<Producto> productos = this.productoService.findAll();
+        int totalAntes = productos.size();
+        if (productos.isEmpty()) {
+            return; // test pass
+        }
+
+        Producto ultimoProducto = productos.get(productos.size() - 1);
+        this.productoService.deleteById(ultimoProducto.getId());
+
+        productos = this.productoService.findAll();
+        int totalDespues = productos.size();
+
+        assertEquals(1, totalAntes - totalDespues);
     }
 
     @Test
     void update() throws Exception {
+
+        // Actualizar el nombre del producto
+        Long id = 1L; // Relacionado con tus datos de pruebas
+        String NOMBRE_ORIGINAL = "Kingstone" ;
+        String NOMBRE_A_CAMBIAR = "Kingstone Cambiado" ;
+        Producto prod = null;
+
+        // Actualizar
+        productoService.update(id, NOMBRE_A_CAMBIAR);
+
+
+        // Buscar el producto
+        prod = productoService.findById(id);
+
+        // Verificar que el nombre ha sido cambiado
+        assertEquals(NOMBRE_A_CAMBIAR, prod.getNombre());
+
+        // Actualizar
+        productoService.update(id, NOMBRE_ORIGINAL);
+
+
+        // Buscar el producto
+        prod = productoService.findById(id);
+
+        // Verificar que el nombre ha sido cambiado
+        assertEquals(NOMBRE_ORIGINAL,prod.getNombre());
+
     }
 }
